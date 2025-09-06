@@ -1,1 +1,2 @@
-export { Discovery } from "~/libs/components/discovery/discovery.jsx";
+export { Discovery } from "./discovery/discovery.jsx";
+export { Resources } from "./resources/resources.jsx";

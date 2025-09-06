@@ -1,0 +1,13 @@
+.cell {
+	width: 80px; /* TODO: size */
+	height: 80px; /* TODO: size */
+	background-color: green; /* TODO: color variable */
+	border-radius: 8px;
+	border: 2px solid #000; /* TODO: color variable */
+	cursor: pointer;
+	transition: transform 0.3s ease;
+}
+
+.cell:hover {
+	transform: scale(1.05);
+}

@@ -1,6 +1,6 @@
 import React from "react";
-import { DiscoveryPanel } from "./discovery-panel/discovery-panel.jsx";
 import styles from "./discovery.module.css";
+import { DiscoveryPanel } from "./discovery-panel/discovery-panel.jsx";
 
 const Discovery: React.FC = () => {
 	return (

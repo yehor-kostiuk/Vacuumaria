@@ -13,8 +13,8 @@ const DiscoveryPanelCard: React.FC<DiscoveryPanelCardProps> = ({ title, image })
 				<img src={image} alt={title} className={styles["card-image"]} />
 			</div>
 			<div>
-				<h3 className={styles["item-name"]}>{title}</h3>
-				<h3 className={styles["item-status"]}>Ready to craft</h3>
+				<div className={styles["item-name"]}>{title}</div>
+				<div className={styles["item-status"]}>Ready to craft</div>
 			</div>
 		</div>
 	);

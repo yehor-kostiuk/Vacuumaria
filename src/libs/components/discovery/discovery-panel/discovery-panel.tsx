@@ -6,11 +6,11 @@ const DiscoveryPanel: React.FC = () => {
 	return (
 		<div className={styles["discovery-panel"]}>
 			<DiscoveryPanelCard
-				title="test"
+				title="Test"
 				image="/public/vacuum-cleaner.png"
 			/>
 			<DiscoveryPanelCard
-				title="test"
+				title="Test"
 				image="/public/vacuum-cleaner.png"
 			/>
 		</div>

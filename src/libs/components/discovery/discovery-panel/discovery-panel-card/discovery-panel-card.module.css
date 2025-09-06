@@ -40,7 +40,6 @@
 }
 
 .item-status {
+    font-size: 12px;
     color: #6c757d;
-    margin-top: 2px;
-    font-weight: 400;
 }

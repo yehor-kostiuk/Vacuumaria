@@ -1,0 +1,1 @@
+export { Discovery } from "~/libs/components/discovery/discovery.jsx";

@@ -1,0 +1,55 @@
+.recipe-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #28a745;
+    background: #f8fff9;
+}
+
+.recipe-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.result-icon {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.recipe-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.recipe-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 4px;
+    word-wrap: break-word;
+}
+
+.recipe-description {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 8px;
+    line-height: 1.4;
+}
+
+.status-badge {
+    background: #d4edda;
+    color: #155724;
+}
+
+.crafting-grid {
+
+}

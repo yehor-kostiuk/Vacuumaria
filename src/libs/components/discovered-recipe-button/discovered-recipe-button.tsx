@@ -6,7 +6,7 @@ type Properties = {
 	children?: React.ReactNode;
 };
 
-const DiscoveredRecipeButton: React.FC<Properties> = ({ children }) => {
+const DiscoveredRecipeButton: React.FC<Properties> = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [buttonText, setButtonText] = useState("Открыть модалку");
 
@@ -25,9 +25,7 @@ const DiscoveredRecipeButton: React.FC<Properties> = ({ children }) => {
 			<button className={styles.button} onClick={toggleModal}>
 				{buttonText}
 			</button>
-			<DiscoveredRecipeModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-				{children ? children : <p>sosal?</p>}
-			</DiscoveredRecipeModal>
+			<DiscoveredRecipeModal isOpen={isOpen} onClose={() => setIsOpen(false)}/>
 		</>
 	);
 };

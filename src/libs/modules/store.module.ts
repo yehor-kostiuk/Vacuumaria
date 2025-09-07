@@ -7,7 +7,7 @@ import type {
 	ItemType,
 } from "~/libs/types/types.js";
 
-import { INITIAL_ITEMS, INITIAL_UNLOCKED } from "~/libs/constants/constants.js";
+import { INITIAL_ITEMS } from "~/libs/constants/constants.js";
 
 export const initialCraftingTable: CraftingSlot[] = Array.from(
 	{ length: 9 },
@@ -17,5 +17,5 @@ export const initialCraftingTable: CraftingSlot[] = Array.from(
 export const useGameStore = create<Game>(() => ({
 	inventory: { items: INITIAL_ITEMS } as Inventory,
 	craftingTable: initialCraftingTable as CraftingTable,
-	unlockedItems: new Set<ItemType>(INITIAL_UNLOCKED),
+	unlockedItems: new Set<ItemType>(),
 }));

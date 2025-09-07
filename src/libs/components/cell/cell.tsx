@@ -9,7 +9,7 @@ type Properties = {
 const Cell = ({ item }: Properties) => {
 	return (
 		<div className={styles["cell"]}>
-			{item && <img src={`/`} alt={item.name} />}
+			{item && <img src={item.icon} alt={item.name} />}
 		</div>
 	);
 };

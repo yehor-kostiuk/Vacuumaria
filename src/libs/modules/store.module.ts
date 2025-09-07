@@ -15,7 +15,8 @@ export const initialCraftingTable: CraftingSlot[] = Array.from(
 );
 
 export const useGameStore = create<Game>(() => ({
-	inventory: { items: INITIAL_ITEMS } as Inventory,
+	inventory: { items: [] } as Inventory,
 	craftingTable: initialCraftingTable as CraftingTable,
+	baseItems: INITIAL_ITEMS,
 	unlockedItems: new Set<ItemType>(),
 }));

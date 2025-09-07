@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type {
 	Inventory,
 	CraftingSlot,
@@ -17,16 +18,24 @@ export const initialCraftingTable: CraftingSlot[] = Array.from(
 
 export const useGameStore = create<
 	Game & { addToInventory: (item: Item) => void }
->((set) => ({
-	inventory: { items: [] } as Inventory,
-	craftingTable: initialCraftingTable as CraftingTable,
-	baseItems: INITIAL_ITEMS,
-	unlockedItems: new Set<ItemType>(),
+>()(
+	persist(
+		(set) => ({
+			inventory: { items: [] } as Inventory,
+			craftingTable: initialCraftingTable as CraftingTable,
+			baseItems: INITIAL_ITEMS,
+			unlockedItems: new Set<ItemType>(),
 
-	addToInventory: (item: Item) =>
-		set((state) => ({
-			inventory: {
-				items: [...state.inventory.items, item],
-			},
-		})),
-}));
+			addToInventory: (item: Item) =>
+				set((state) => ({
+					inventory: {
+						items: [...state.inventory.items, item],
+					},
+				})),
+		}),
+		{
+			name: "inventory-storage",
+			partialize: (state) => ({ inventory: state.inventory }),
+		},
+	),
+);

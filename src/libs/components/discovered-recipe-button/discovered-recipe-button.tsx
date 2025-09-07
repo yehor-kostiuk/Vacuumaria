@@ -1,31 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
+import { DiscoveredRecipeModal } from "../discovered-recipe-modal/discovered-recipe-modal.jsx";
 import styles from "./discovered-recipe-button.module.css";
-import { DiscoveredRecipeModal } from "../discovered-recipe-modal/discovered-recipe-modal.tsx";
 
-type Properties = {
-	children?: React.ReactNode;
-};
-
-const DiscoveredRecipeButton: React.FC<Properties> = () => {
+const DiscoveredRecipeButton: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [buttonText, setButtonText] = useState("Открыть модалку");
 
-	const toggleModal = () => setIsOpen(prev => !prev);
-
-	useEffect(() => {
-		if (isOpen) {
-			setButtonText("Close");
-		} else {
-			setButtonText("Open");
-		}
-	}, [isOpen]);
+	const toggleModal = () => setIsOpen((prev) => !prev);
 
 	return (
 		<>
-			<button className={styles.button} onClick={toggleModal}>
-				{buttonText}
-			</button>
-			<DiscoveredRecipeModal isOpen={isOpen} onClose={() => setIsOpen(false)}/>
+			<button className={styles.button} onClick={toggleModal} />
+			<DiscoveredRecipeModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
 		</>
 	);
 };

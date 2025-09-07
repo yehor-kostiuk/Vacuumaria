@@ -1,6 +1,4 @@
-.overlay {
-    width: 1456px;
-    height: 905px;
+.modal-overlay {
     position: fixed;
     inset: 0;
     background: #0009;

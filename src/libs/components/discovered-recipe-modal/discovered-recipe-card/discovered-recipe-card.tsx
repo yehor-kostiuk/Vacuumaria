@@ -21,11 +21,23 @@ const DiscoveredRecipeCard: React.FC<DiscoveredRecipeCardProps> = ({ title, desc
 					</div>
 				</div>
 				<div className={styles["crafting-grid"]}>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
+					<div className={styles["crafting-row"]}>
+						<div className={styles["ingredient-slot"]}><img src={image} alt={title} className={styles["ingredient-image"]} /></div>
+						<div className={styles["ingredient-slot"]}><img src={image} alt={title} className={styles["ingredient-image"]} /></div>
+						<div className={styles["ingredient-slot"]}><img src={image} alt={title} className={styles["ingredient-image"]} /></div>
+					</div>
+					<div className={styles["crafting-row"]}>
+						<div className={styles["empty-slot"]}></div>
+						<div className={styles["empty-slot"]}></div>
+						<div className={styles["empty-slot"]}></div>
+					</div>
+					<div className={styles["crafting-row"]}>
+						<div className={styles["empty-slot"]}></div>
+						<div className={styles["empty-slot"]}></div>
+						<div className={styles["empty-slot"]}></div>
+					</div>
+					<div className={styles["arrow"]}>→</div>
+					<div className={styles["result-slot"]}><img src={image} alt={title} className={styles["result-image"]} /></div>
 				</div>
 		</div>
 	);

@@ -7,11 +7,18 @@ import styles from "./resources.module.css";
 
 const Resources = () => {
 	const baseResources = useGameStore((state) => state.baseItems);
+	const addToInventory = useGameStore((state) => state.addToInventory);
+
+	const handleClick = (item: Item) => {
+		addToInventory(item);
+	};
 
 	return (
 		<div className={styles["resources"]}>
 			{baseResources.map((item: Item) => (
-				<Cell key={item.id} item={item} />
+				<div key={item.id} onClick={() => handleClick(item)}>
+					<Cell item={item} />
+				</div>
 			))}
 		</div>
 	);

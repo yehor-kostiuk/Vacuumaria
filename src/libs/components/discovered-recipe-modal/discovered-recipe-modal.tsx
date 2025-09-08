@@ -39,9 +39,9 @@ const DiscoveredRecipeModal = ({ isOpen, onClose }: Properties) => {
 				<div className={styles["modal-body"]}>
 					<div className={styles["recipes-list"]}>
 						{discoveredItems.length === 0 ? (
-							<div className={styles["empty-placeholder"]}>
-								📋 No recipes discovered yet! Start crafting to discover new
-								recipes.
+							<div className={styles["empty-state"]}>
+								<span className={styles["empty-icon"]}>📋</span>
+								<div className={styles["empty-text"]}>No recipes discovered yet! Start crafting to discover new recipes.</div>
 							</div>
 						) : (
 							discoveredItems.map((item, index) => (

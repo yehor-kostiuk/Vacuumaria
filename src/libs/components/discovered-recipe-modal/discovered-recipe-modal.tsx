@@ -10,8 +10,17 @@ type Properties = {
 const DiscoveredRecipeModal: React.FC<Properties> = ({ isOpen, onClose }) => {
 	if (!isOpen) return null;
 
+	const handleOverlayClick = (e: React.MouseEvent) => {
+		if (e.target === e.currentTarget) {
+			onClose();
+		}
+	};
+
 	return (
-		<div className={styles["modal-overlay"]} onClick={onClose}>
+		<div
+			className={styles["modal-overlay"]}
+			onClick={handleOverlayClick} // добавляем обработчик клика
+		>
 			<div className={styles["modal-content"]}>
 				<div className={styles["modal-header"]}>
 					<h2 className={styles["modal-title"]}>

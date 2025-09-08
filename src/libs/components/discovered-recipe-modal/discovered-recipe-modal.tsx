@@ -7,7 +7,7 @@ type Properties = {
 	onClose: () => void;
 };
 
-const DiscoveredRecipeModal: React.FC<Properties> = ({ isOpen, onClose }) => {
+const DiscoveredRecipeModal = ({ isOpen, onClose }: Properties) => {
 	useEffect(() => {
 		if (isOpen) {
 			document.body.style.overflow = "hidden";
@@ -27,10 +27,7 @@ const DiscoveredRecipeModal: React.FC<Properties> = ({ isOpen, onClose }) => {
 	};
 
 	return isOpen ? (
-		<div
-			className={styles["modal-overlay"]}
-			onClick={handleOverlayClick}
-		>
+		<div className={styles["modal-overlay"]} onClick={handleOverlayClick}>
 			<div className={styles["modal-content"]}>
 				<div className={styles["modal-header"]}>
 					<h2 className={styles["modal-title"]}>

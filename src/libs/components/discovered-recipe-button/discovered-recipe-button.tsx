@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DiscoveredRecipeModal } from "../discovered-recipe-modal/discovered-recipe-modal.jsx";
 import styles from "./discovered-recipe-button.module.css";
 
-const DiscoveredRecipeButton: React.FC = () => {
+const DiscoveredRecipeButton = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleModal = () => setIsOpen((prev) => !prev);

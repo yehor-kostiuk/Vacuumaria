@@ -5,7 +5,6 @@ import { DiscoveredRecipeCard } from "./discovered-recipe-card/discovered-recipe
 type Properties = {
 	isOpen: boolean;
 	onClose: () => void;
-	children?: React.ReactNode;
 };
 
 const DiscoveredRecipeModal: React.FC<Properties> = ({ isOpen, onClose }) => {

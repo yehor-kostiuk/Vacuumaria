@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import styles from "./discovered-recipe-modal.module.css";
 import { DiscoveredRecipeCard } from "./discovered-recipe-card/discovered-recipe-card.jsx";
 
@@ -8,7 +9,17 @@ type Properties = {
 };
 
 const DiscoveredRecipeModal: React.FC<Properties> = ({ isOpen, onClose }) => {
-	if (!isOpen) return null;
+	useEffect(() => {
+		if (isOpen) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "";
+		}
+
+		return () => {
+			document.body.style.overflow = "";
+		};
+	}, [isOpen]);
 
 	const handleOverlayClick = (e: React.MouseEvent) => {
 		if (e.target === e.currentTarget) {
@@ -16,10 +27,10 @@ const DiscoveredRecipeModal: React.FC<Properties> = ({ isOpen, onClose }) => {
 		}
 	};
 
-	return (
+	return isOpen ? (
 		<div
 			className={styles["modal-overlay"]}
-			onClick={handleOverlayClick} // добавляем обработчик клика
+			onClick={handleOverlayClick}
 		>
 			<div className={styles["modal-content"]}>
 				<div className={styles["modal-header"]}>
@@ -52,7 +63,7 @@ const DiscoveredRecipeModal: React.FC<Properties> = ({ isOpen, onClose }) => {
 				</div>
 			</div>
 		</div>
-	);
+	) : null;
 };
 
 export { DiscoveredRecipeModal };

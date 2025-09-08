@@ -1,21 +1,41 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type {
 	Inventory,
 	CraftingSlot,
 	CraftingTable,
 	Game,
 	ItemType,
+	Item,
 } from "~/libs/types/types.js";
 
-import { INITIAL_ITEMS, INITIAL_UNLOCKED } from "~/libs/constants/constants.js";
+import { INITIAL_ITEMS } from "~/libs/constants/constants.js";
 
 export const initialCraftingTable: CraftingSlot[] = Array.from(
 	{ length: 9 },
 	(_, i) => ({ id: `slot${i + 1}` }),
 );
 
-export const useGameStore = create<Game>(() => ({
-	inventory: { items: INITIAL_ITEMS } as Inventory,
-	craftingTable: initialCraftingTable as CraftingTable,
-	unlockedItems: new Set<ItemType>(INITIAL_UNLOCKED),
-}));
+export const useGameStore = create<
+	Game & { addToInventory: (item: Item) => void }
+>()(
+	persist(
+		(set) => ({
+			inventory: { items: [] } as Inventory,
+			craftingTable: initialCraftingTable as CraftingTable,
+			baseItems: INITIAL_ITEMS,
+			unlockedItems: new Set<ItemType>(),
+
+			addToInventory: (item: Item) =>
+				set((state) => ({
+					inventory: {
+						items: [...state.inventory.items, item],
+					},
+				})),
+		}),
+		{
+			name: "inventory-storage",
+			partialize: (state) => ({ inventory: state.inventory }),
+		},
+	),
+);

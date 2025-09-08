@@ -6,13 +6,19 @@ import { type Item } from "~/libs/types/types.js";
 import styles from "./resources.module.css";
 
 const Resources = () => {
-	const inventoryItems = useGameStore((state) => state.inventory.items);
-	console.log(inventoryItems);
+	const baseResources = useGameStore((state) => state.baseItems);
+	const addToInventory = useGameStore((state) => state.addToInventory);
+
+	const handleClick = (item: Item) => {
+		addToInventory(item);
+	};
 
 	return (
 		<div className={styles["resources"]}>
-			{inventoryItems.map((item: Item) => (
-				<Cell key={item.id} item={item} />
+			{baseResources.map((item: Item) => (
+				<div key={item.id} onClick={() => handleClick(item)}>
+					<Cell item={item} />
+				</div>
 			))}
 		</div>
 	);

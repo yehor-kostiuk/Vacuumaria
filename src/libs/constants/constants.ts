@@ -1,1 +1,1 @@
-export { INITIAL_ITEMS, INITIAL_UNLOCKED } from "./initial-items.constants.js";
+export { INITIAL_ITEMS } from "./initial-items.constants.js";

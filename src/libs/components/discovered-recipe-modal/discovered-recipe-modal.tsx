@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styles from "./discovered-recipe-modal.module.css";
 import { DiscoveredRecipeCard } from "./discovered-recipe-card/discovered-recipe-card.jsx";
 
@@ -9,12 +9,7 @@ type Properties = {
 
 const DiscoveredRecipeModal = ({ isOpen, onClose }: Properties) => {
 	useEffect(() => {
-		if (isOpen) {
-			document.body.style.overflow = "hidden";
-		} else {
-			document.body.style.overflow = "";
-		}
-
+		document.body.style.overflow = isOpen ? "hidden" : "";
 		return () => {
 			document.body.style.overflow = "";
 		};

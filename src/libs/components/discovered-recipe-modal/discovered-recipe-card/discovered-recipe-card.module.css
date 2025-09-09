@@ -3,6 +3,12 @@
     overflow: hidden;
     border: 2px solid #28a745;
     background: #f8fff9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 .recipe-header {

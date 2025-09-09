@@ -14,10 +14,23 @@ const DiscoveredRecipeModal = ({ isOpen, onClose }: Properties) => {
 
 	useEffect(() => {
 		document.body.style.overflow = isOpen ? "hidden" : "";
+
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "Escape") {
+				onClose();
+			}
+		};
+
+		if (isOpen) {
+			document.addEventListener("keydown", handleKeyDown);
+		}
+
 		return () => {
 			document.body.style.overflow = "";
+			document.removeEventListener("keydown", handleKeyDown);
 		};
-	}, [isOpen]);
+	}, [isOpen, onClose]);
+
 
 	const handleOverlayClick = (e: React.MouseEvent) => {
 		if (e.target === e.currentTarget) {

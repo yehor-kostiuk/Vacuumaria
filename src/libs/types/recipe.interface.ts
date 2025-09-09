@@ -1,7 +1,6 @@
-import { type ItemType } from "./item.type.js";
+import { type Item } from "./item.interface.js";
 
 export interface Recipe {
-	id: string;
-	inputs: { [key in ItemType]?: number };
-	output: ItemType;
+	pattern: (Item | null)[][];
+	output: Item;
 }

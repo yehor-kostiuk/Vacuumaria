@@ -7,7 +7,7 @@ import type {
 	CraftingTable,
 	Game,
 	Item,
-	Recipe,
+	AdvancedItem,
 } from "~/libs/types/types.js";
 
 import { INITIAL_ITEMS } from "~/libs/constants/constants.js";
@@ -21,7 +21,7 @@ const useGameStore = create<
 	Game & {
 		addToInventory: (item: Item) => void;
 		removeFromInventory: (itemId: string) => void;
-		unlockRecipe: (recipe: Recipe) => void;
+		unlockRecipe: (recipe: AdvancedItem) => void;
 		addToCraftingTable: (slotId: string, item: Item) => void;
 		removeFromCraftingTable: (slotId: string) => void;
 	}
@@ -31,28 +31,23 @@ const useGameStore = create<
 			inventory: { items: [] } as Inventory,
 			craftingTable: initialCraftingTable as CraftingTable,
 			baseItems: INITIAL_ITEMS,
-			unlockedItems: [] as Recipe[],
+			unlockedItems: [] as AdvancedItem[],
 
 			addToInventory: (item: Item) =>
 				set((state) => ({
 					inventory: {
-						items: [
-							...state.inventory.items,
-							{ ...item, id: nanoid() },
-						],
+						items: [...state.inventory.items, { ...item, id: nanoid() }],
 					},
 				})),
 
 			removeFromInventory: (id: string) =>
 				set((state) => ({
 					inventory: {
-						items: state.inventory.items.filter(
-							(i) => i.id !== id,
-						),
+						items: state.inventory.items.filter((i) => i.id !== id),
 					},
 				})),
 
-			unlockRecipe: (recipe: Recipe) =>
+			unlockRecipe: (recipe: AdvancedItem) =>
 				set((state) => ({
 					unlockedItems: [...state.unlockedItems, recipe],
 				})),

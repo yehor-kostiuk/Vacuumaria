@@ -9,7 +9,6 @@ import {
 const GameBoard = () => {
 	return (
 		<div>
-			<Discovery />
 			<DiscoveredRecipeButton />
 			<div style={{ display: "flex" }}>
 				<Discovery />

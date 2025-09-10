@@ -60,7 +60,7 @@ const DiscoveredRecipeModal = ({ isOpen, onClose }: Properties) => {
 							</div>
 						) : (
 							discoveredItems.map((recipe) => (
-								<DiscoveredRecipeCard key={recipe.item.id} item={recipe.item} />
+								<DiscoveredRecipeCard key={recipe.item.id} item={recipe} />
 							))
 						)}
 					</div>

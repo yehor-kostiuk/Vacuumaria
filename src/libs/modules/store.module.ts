@@ -10,7 +10,10 @@ import type {
 	AdvancedItem,
 } from "~/libs/types/types.js";
 
-import { INITIAL_ITEMS } from "~/libs/constants/constants.js";
+import {
+	INITIAL_ITEMS,
+	INITIAL_AVALIABLE_CRAFT_ITEMS,
+} from "~/libs/constants/constants.js";
 
 export const initialCraftingTable: CraftingSlot[] = Array.from(
 	{ length: 9 },
@@ -19,9 +22,14 @@ export const initialCraftingTable: CraftingSlot[] = Array.from(
 
 const useGameStore = create<
 	Game & {
+		// Inventory
 		addToInventory: (item: Item) => void;
 		removeFromInventory: (itemId: string) => void;
+
+		// Recipies
 		unlockRecipe: (recipe: AdvancedItem) => void;
+
+		// Crafting table
 		addToCraftingTable: (slotId: string, item: Item) => void;
 		removeFromCraftingTable: (slotId: string) => void;
 	}
@@ -32,6 +40,7 @@ const useGameStore = create<
 			craftingTable: initialCraftingTable as CraftingTable,
 			baseItems: INITIAL_ITEMS,
 			unlockedItems: [] as AdvancedItem[],
+			availableForCrafting: INITIAL_AVALIABLE_CRAFT_ITEMS,
 
 			addToInventory: (item: Item) =>
 				set((state) => ({

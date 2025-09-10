@@ -8,4 +8,5 @@ export interface Game {
 	craftingTable: CraftingTable;
 	unlockedItems: AdvancedItem[];
 	baseItems: Item[];
+	availableForCrafting: AdvancedItem[],
 }

@@ -10,7 +10,12 @@ const CraftingTable = () => {
 	return (
 		<div className={styles["crafting-table"]}>
 			{craftingTable.map((slot) => (
-				<Cell key={slot.id} />
+				<Cell
+					key={slot.id}
+					slotId={slot.id}
+					context="crafting"
+					item={slot.item}
+				/>
 			))}
 		</div>
 	);

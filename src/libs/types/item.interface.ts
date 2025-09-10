@@ -5,4 +5,5 @@ export interface Item {
 	type: ItemType;
 	name: string;
 	icon: string;
+	description: string;
 }

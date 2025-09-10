@@ -3,6 +3,7 @@ import {
 	Resources,
 	Inventory,
 	DiscoveredRecipeButton,
+	Crafting,
 } from "~/libs/components/components.jsx";
 
 const GameBoard = () => {
@@ -10,6 +11,10 @@ const GameBoard = () => {
 		<div>
 			<Discovery />
 			<DiscoveredRecipeButton />
+			<div style={{ display: "flex" }}>
+				<Discovery />
+				<Crafting />
+			</div>
 			<div style={{ display: "flex" }}>
 				{" "}
 				{/* TODO: fix styles */}

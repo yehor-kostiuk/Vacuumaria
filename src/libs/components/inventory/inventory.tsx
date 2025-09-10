@@ -15,7 +15,7 @@ const Inventory = () => {
 			<div className={styles["inventory-container"]}>
 				<div className={styles["inventory"]}>
 					{slots.map((item, index) => (
-						<Cell key={index} item={item} />
+						<Cell key={index} item={item} context="inventory" />
 					))}
 				</div>
 			</div>

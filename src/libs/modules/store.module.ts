@@ -1,41 +1,89 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { nanoid } from "nanoid";
 import type {
 	Inventory,
 	CraftingSlot,
 	CraftingTable,
 	Game,
-	ItemType,
 	Item,
+	AdvancedItem,
 } from "~/libs/types/types.js";
 
-import { INITIAL_ITEMS } from "~/libs/constants/constants.js";
+import {
+	INITIAL_ITEMS,
+	INITIAL_AVALIABLE_CRAFT_ITEMS,
+} from "~/libs/constants/constants.js";
 
 export const initialCraftingTable: CraftingSlot[] = Array.from(
 	{ length: 9 },
 	(_, i) => ({ id: `slot${i + 1}` }),
 );
 
-export const useGameStore = create<
-	Game & { addToInventory: (item: Item) => void }
+const useGameStore = create<
+	Game & {
+		// Inventory
+		addToInventory: (item: Item) => void;
+		removeFromInventory: (itemId: string) => void;
+
+		// Recipies
+		unlockRecipe: (recipe: AdvancedItem) => void;
+
+		// Crafting table
+		addToCraftingTable: (slotId: string, item: Item) => void;
+		removeFromCraftingTable: (slotId: string) => void;
+	}
 >()(
 	persist(
 		(set) => ({
 			inventory: { items: [] } as Inventory,
 			craftingTable: initialCraftingTable as CraftingTable,
 			baseItems: INITIAL_ITEMS,
-			unlockedItems: new Set<ItemType>(),
+			unlockedItems: [] as AdvancedItem[],
+			availableForCrafting: INITIAL_AVALIABLE_CRAFT_ITEMS,
 
 			addToInventory: (item: Item) =>
 				set((state) => ({
 					inventory: {
-						items: [...state.inventory.items, item],
+						items: [...state.inventory.items, { ...item, id: nanoid() }],
 					},
+				})),
+
+			removeFromInventory: (id: string) =>
+				set((state) => ({
+					inventory: {
+						items: state.inventory.items.filter((i) => i.id !== id),
+					},
+				})),
+
+			unlockRecipe: (recipe: AdvancedItem) =>
+				set((state) => ({
+					unlockedItems: [...state.unlockedItems, recipe],
+				})),
+
+			addToCraftingTable: (slotId, item) =>
+				set((state) => ({
+					craftingTable: state.craftingTable.map((slot) =>
+						slot.id === slotId ? { ...slot, item } : slot,
+					),
+				})),
+
+			removeFromCraftingTable: (slotId) =>
+				set((state) => ({
+					craftingTable: state.craftingTable.map((slot) =>
+						slot.id === slotId ? { ...slot, item: undefined } : slot,
+					),
 				})),
 		}),
 		{
-			name: "inventory-storage",
-			partialize: (state) => ({ inventory: state.inventory }),
+			name: "storage",
+			partialize: (state) => ({
+				inventory: state.inventory,
+				craftingTable: state.craftingTable,
+				unlockedItems: state.unlockedItems,
+			}),
 		},
 	),
 );
+
+export { useGameStore };

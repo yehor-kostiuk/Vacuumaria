@@ -9,7 +9,7 @@ export const INITIAL_AVALIABLE_CRAFT_ITEMS: AdvancedItem[] = [
 		item: {
 			id: "bolt-1",
 			type: "bolt",
-			name: "Bold",
+			name: "Bolt",
 			icon: "/src/assets/img/icons",
 			description: "bolt",
 		},

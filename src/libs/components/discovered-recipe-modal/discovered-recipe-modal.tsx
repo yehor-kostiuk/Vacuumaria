@@ -31,7 +31,6 @@ const DiscoveredRecipeModal = ({ isOpen, onClose }: Properties) => {
 		};
 	}, [isOpen, onClose]);
 
-
 	const handleOverlayClick = (e: React.MouseEvent) => {
 		if (e.target === e.currentTarget) {
 			onClose();
@@ -54,16 +53,14 @@ const DiscoveredRecipeModal = ({ isOpen, onClose }: Properties) => {
 						{discoveredItems.length === 0 ? (
 							<div className={styles["empty-state"]}>
 								<span className={styles["empty-icon"]}>📋</span>
-								<div className={styles["empty-text"]}>No recipes discovered yet! Start crafting to discover new recipes.</div>
+								<div className={styles["empty-text"]}>
+									No recipes discovered yet! Start crafting to discover new
+									recipes.
+								</div>
 							</div>
 						) : (
-							discoveredItems.map((item, index) => (
-								<DiscoveredRecipeCard
-									key={index}
-									title={item}
-									description={`Description for ${item}`}
-									image={`/images/${item}.png`}
-								/>
+							discoveredItems.map((recipe) => (
+								<DiscoveredRecipeCard key={recipe.item.id} item={recipe.item} />
 							))
 						)}
 					</div>

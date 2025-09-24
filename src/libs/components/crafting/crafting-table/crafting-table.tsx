@@ -1,21 +1,15 @@
 import { useGameStore } from "~/libs/modules/store.module.js";
-
-import { Cell } from "../../cell/cell.js";
+import { CraftingSlotComponent } from "../CraftingSlotComponent";
 
 import styles from "./crafting-table.module.css";
 
 const CraftingTable = () => {
-	const craftingTable = useGameStore((state) => state.craftingTable);
-
+	const craftingTable = useGameStore((s) => s.craftingTable);
+console.log(craftingTable)
 	return (
 		<div className={styles["crafting-table"]}>
-			{craftingTable.map((slot) => (
-				<Cell
-					key={slot.id}
-					slotId={slot.id}
-					context="crafting"
-					item={slot.item}
-				/>
+			{craftingTable.map((slot, index) => (
+				<CraftingSlotComponent key={slot.id} slot={slot} index={index} />
 			))}
 		</div>
 	);

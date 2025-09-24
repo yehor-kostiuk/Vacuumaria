@@ -1,39 +1,35 @@
 import { useGameStore } from "~/libs/modules/store.module.js";
-
 import { type Item } from "~/libs/types/types.js";
-
 import styles from "./cell.module.css";
 
-type Properties = {
+type CellProps = {
 	item?: Item | null;
 	slotId?: string;
 	context?: "inventory" | "crafting";
+	index?: number;
 };
 
-const Cell = ({ item, slotId, context }: Properties) => {
-	const addToCraftingTable = useGameStore((s) => s.addToCraftingTable);
-	const removeFromCraftingTable = useGameStore(
-		(s) => s.removeFromCraftingTable,
-	);
-	const addToInventory = useGameStore((s) => s.addToInventory);
-	const removeFromInventory = useGameStore((s) => s.removeFromInventory);
+const Cell = ({ item, context, index }: CellProps) => {
+	const moveItem = useGameStore((s) => s.moveItem);
 
 	const handleClick = () => {
-		if (!item) return;
+		if (!item || index === undefined) return;
+
+		const state = useGameStore.getState();
 
 		if (context === "inventory") {
-			const state = useGameStore.getState();
-			const emptySlot = state.craftingTable.find((slot) => !slot.item);
-
-			if (emptySlot) {
-				addToCraftingTable(emptySlot.id, item);
-				removeFromInventory(item.id);
+			const emptyIndex = state.craftingTable.findIndex((slot) => !slot.item);
+			if (emptyIndex !== -1) {
+				moveItem({ context: "inventory", index }, { context: "crafting", index: emptyIndex });
 			}
 		}
 
-		if (context === "crafting" && slotId) {
-			removeFromCraftingTable(slotId);
-			addToInventory(item);
+		if (context === "crafting") {
+			const emptyIndex = state.inventory.items.findIndex((i) => !i);
+			moveItem(
+				{ context: "crafting", index },
+				{ context: "inventory", index: emptyIndex !== -1 ? emptyIndex : state.inventory.items.length }
+			);
 		}
 	};
 

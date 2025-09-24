@@ -4,3 +4,4 @@ export { DiscoveredRecipeButton } from "./discovered-recipe-button/discovered-re
 export { Inventory } from "./inventory/inventory.jsx";
 export { Crafting } from "./crafting/crafting.jsx";
 export { DndWrapper } from "./dnd/dnd.tsx";
+export  { Garbage } from "./garbage/garbage.tsx"

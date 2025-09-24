@@ -3,7 +3,7 @@ import {
 	Crafting,
 	DiscoveredRecipeButton,
 	Discovery,
-	Resources,
+	Resources, Garbage,
 } from "~/libs/components/components.jsx";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -19,6 +19,7 @@ const GameBoard = () => {
 			<div style={{ display: "flex" }}>
 				<Resources />
 				<Inventory />
+				<Garbage />
 			</div>
 		</DndProvider>
 	);

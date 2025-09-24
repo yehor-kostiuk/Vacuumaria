@@ -9,7 +9,6 @@ import type {
 	Item,
 	AdvancedItem,
 } from "~/libs/types/types.js";
-
 import {
 	INITIAL_ITEMS,
 	INITIAL_AVALIABLE_CRAFT_ITEMS,
@@ -22,17 +21,16 @@ export const initialCraftingTable: CraftingSlot[] = Array.from(
 
 const useGameStore = create<
 	Game & {
-		// Inventory
-		addToInventory: (item: Item) => void;
-		removeFromInventory: (itemId: string) => void;
-
-		// Recipies
-		unlockRecipe: (recipe: AdvancedItem) => void;
-
-		// Crafting table
-		addToCraftingTable: (slotId: string, item: Item) => void;
-		removeFromCraftingTable: (slotId: string) => void;
-	}
+	addToInventory: (item: Item) => void;
+	removeFromInventory: (itemId: string) => void;
+	unlockRecipe: (recipe: AdvancedItem) => void;
+	addToCraftingTable: (slotId: string, item: Item) => void;
+	removeFromCraftingTable: (slotId: string) => void;
+	moveItem: (
+		from: { context: "inventory" | "crafting"; index: number },
+		to: { context: "inventory" | "crafting"; index: number }
+	) => void;
+}
 >()(
 	persist(
 		(set) => ({
@@ -74,6 +72,42 @@ const useGameStore = create<
 						slot.id === slotId ? { ...slot, item: undefined } : slot,
 					),
 				})),
+
+			moveItem: (from, to) =>
+				set((state) => {
+					const newInventory = [...state.inventory.items];
+					const newCrafting = [...state.craftingTable];
+
+					let dragged: Item | undefined;
+
+					// Убираем предмет из источника
+					if (from.context === "inventory") {
+						dragged = newInventory[from.index];
+						if (!dragged) return state;
+						newInventory.splice(from.index, 1);
+					} else {
+						dragged = newCrafting[from.index].item;
+						if (!dragged) return state;
+						newCrafting[from.index] = { ...newCrafting[from.index], item: undefined };
+					}
+
+					// Кладем предмет в цель
+					if (to.context === "inventory") {
+						if (to.index >= newInventory.length) {
+							newInventory.push(dragged);
+						} else {
+							newInventory.splice(to.index, 0, dragged);
+						}
+					} else {
+						newCrafting[to.index] = { ...newCrafting[to.index], item: dragged };
+					}
+
+					return {
+						...state,
+						inventory: { ...state.inventory, items: newInventory },
+						craftingTable: newCrafting,
+					};
+				}),
 		}),
 		{
 			name: "storage",

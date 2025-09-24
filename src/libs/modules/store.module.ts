@@ -80,7 +80,7 @@ const useGameStore = create<
 
 					let dragged: Item | undefined;
 
-					// Убираем предмет из источника
+					// Removing object
 					if (from.context === "inventory") {
 						dragged = newInventory[from.index];
 						if (!dragged) return state;
@@ -91,7 +91,7 @@ const useGameStore = create<
 						newCrafting[from.index] = { ...newCrafting[from.index], item: undefined };
 					}
 
-					// Кладем предмет в цель
+					// Place object
 					if (to.context === "inventory") {
 						if (to.index >= newInventory.length) {
 							newInventory.push(dragged);

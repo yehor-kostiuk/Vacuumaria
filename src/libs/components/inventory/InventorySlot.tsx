@@ -32,7 +32,7 @@ export const InventorySlot = ({ item, index }: InventorySlotProps) => {
 		},
 	});
 
-	drag(drop(ref)); // объединяем drag и drop
+	drag(drop(ref)); // merge drag & drop
 
 	return (
 		<div ref={ref}>

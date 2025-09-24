@@ -29,7 +29,7 @@ export const CraftingSlotComponent = ({ slot, index }: CraftingSlotProps) => {
 		},
 	});
 
-	// Объединяем drag и drop в один ref
+	// merge drag & drop in one ref
 	const ref = (node: HTMLDivElement | null) => {
 		dragRef(node);
 		dropRef(node);

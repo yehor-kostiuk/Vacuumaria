@@ -65,7 +65,7 @@ const Garbage = () => {
 					title="Reset entire game progress"
 					onClick={handleResetGame}
 				>
-					Reset Button
+					Reset Game
 				</button>
 			</div>
 		</div>

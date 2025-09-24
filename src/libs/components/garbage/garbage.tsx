@@ -9,12 +9,18 @@ const ItemTypes = {
 
 const Garbage = () => {
 	const removeFromInventory = useGameStore((s) => s.removeFromInventory);
-	const removeFromCraftingTable = useGameStore((s) => s.removeFromCraftingTable);
+	const removeFromCraftingTable = useGameStore(
+		(s) => s.removeFromCraftingTable,
+	);
 
-	// DnD: accept items from both inventory and crafting
 	const [{ isOver }, dropRef] = useDrop({
 		accept: ItemTypes.ITEM,
-		drop: (dragged: { item?: Item | null; context: "inventory" | "crafting"; index: number; slotId?: string }) => {
+		drop: (dragged: {
+			item?: Item | null;
+			context: "inventory" | "crafting";
+			index: number;
+			slotId?: string;
+		}) => {
 			if (!dragged.item) return;
 
 			if (dragged.context === "inventory") {
@@ -42,12 +48,10 @@ const Garbage = () => {
 	};
 
 	return (
-		<div
-			ref={dropRef}
-			className={styles["garbage-container"]}
-			style={{ backgroundColor: isOver ? "rgba(255,0,0,0.2)" : "transparent" }}
-		>
-			<div className={styles["garbage"]} />
+		<div ref={dropRef} className={styles["garbage-container"]}>
+			<div
+				className={`${styles["garbage"]} ${isOver ? styles["hovered"] : ""}`}
+			/>
 			<div className={styles["buttons-container"]}>
 				<button
 					className={styles["clear-button"]}

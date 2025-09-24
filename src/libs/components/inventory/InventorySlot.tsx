@@ -13,7 +13,6 @@ type InventorySlotProps = {
 
 export const InventorySlot = ({ item, index }: InventorySlotProps) => {
 	const moveItem = useGameStore((s) => s.moveItem);
-
 	const ref = React.useRef<HTMLDivElement>(null);
 
 	const [, drag] = useDrag({

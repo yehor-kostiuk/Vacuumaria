@@ -1,7 +1,7 @@
 import { useDrag, useDrop } from "react-dnd";
-import { useGameStore } from "~/libs/modules/store.module.ts";
-import { Cell } from "../cell/cell.tsx";
-import { type Item, type CraftingSlot } from "~/libs/types/types.ts";
+import { useGameStore } from "~/libs/modules/store.module.js";
+import { Cell } from "../cell/cell.jsx";
+import { type Item, type CraftingSlot } from "~/libs/types/types.js";
 
 const ItemTypes = { ITEM: "item" };
 
@@ -15,13 +15,13 @@ export const CraftingSlotComponent = ({ slot, index }: CraftingSlotProps) => {
 
 	const [, dragRef] = useDrag({
 		type: ItemTypes.ITEM,
-		item: { item: slot.item, index, context: "crafting" as const },
+		item: { item: slot.item, index, context: "crafting" as const, slotId: slot.id },
 		canDrag: !!slot.item,
 	});
 
 	const [, dropRef] = useDrop({
 		accept: ItemTypes.ITEM,
-		drop: (dragged: { item?: Item | null; index: number; context: string }) => {
+		drop: (dragged: { item?: Item | null; index: number; context: string; slotId?: string }) => {
 			moveItem(
 				{ context: dragged.context as "inventory" | "crafting", index: dragged.index },
 				{ context: "crafting", index }
@@ -29,7 +29,7 @@ export const CraftingSlotComponent = ({ slot, index }: CraftingSlotProps) => {
 		},
 	});
 
-	// merge drag & drop in one ref
+	// merge drag & drop refs
 	const ref = (node: HTMLDivElement | null) => {
 		dragRef(node);
 		dropRef(node);

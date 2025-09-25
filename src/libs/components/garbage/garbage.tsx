@@ -48,7 +48,12 @@ const Garbage = () => {
 	};
 
 	return (
-		<div ref={dropRef} className={styles["garbage-container"]}>
+		<div
+			ref={(el) => {
+				if (el) dropRef(el);
+			}}
+			className={styles["garbage-container"]}
+		>
 			<div
 				className={`${styles["garbage"]} ${isOver ? styles["hovered"] : ""}`}
 			/>

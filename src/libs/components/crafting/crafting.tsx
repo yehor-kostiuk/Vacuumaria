@@ -1,16 +1,22 @@
 import { Cell } from "../cell/cell";
 import { CraftingTable } from "./crafting-table/crafting-table";
+import { useGameStore } from "~/libs/modules/store.module.js";
 
 import styles from "./crafting.module.css";
 
 const Crafting = () => {
+	const craftedItem = useGameStore((s) => s.craftedItem());
+	const takeCraftedItem = useGameStore((s) => s.takeCraftedItem);
+
 	return (
 		<div>
 			<div>Crafting</div>
 			<div className={styles["crafting-container"]}>
 				<CraftingTable />
 				{"->"}
-				<Cell />
+				<div onClick={takeCraftedItem}>
+					<Cell item={craftedItem} />
+				</div>
 			</div>
 		</div>
 	);

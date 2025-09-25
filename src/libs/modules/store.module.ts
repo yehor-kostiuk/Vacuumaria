@@ -21,19 +21,21 @@ export const initialCraftingTable: CraftingSlot[] = Array.from(
 
 const useGameStore = create<
 	Game & {
-	addToInventory: (item: Item) => void;
-	removeFromInventory: (itemId: string) => void;
-	unlockRecipe: (recipe: AdvancedItem) => void;
-	addToCraftingTable: (slotId: string, item: Item) => void;
-	removeFromCraftingTable: (slotId: string) => void;
-	moveItem: (
-		from: { context: "inventory" | "crafting"; index: number },
-		to: { context: "inventory" | "crafting"; index: number }
-	) => void;
-}
+		addToInventory: (item: Item) => void;
+		removeFromInventory: (itemId: string) => void;
+		unlockRecipe: (recipe: AdvancedItem) => void;
+		addToCraftingTable: (slotId: string, item: Item) => void;
+		removeFromCraftingTable: (slotId: string) => void;
+		moveItem: (
+			from: { context: "inventory" | "crafting"; index: number },
+			to: { context: "inventory" | "crafting"; index: number },
+		) => void;
+		craftedItem: () => Item | null;
+		takeCraftedItem: () => void;
+	}
 >()(
 	persist(
-		(set) => ({
+		(set, get) => ({
 			inventory: { items: [] } as Inventory,
 			craftingTable: initialCraftingTable as CraftingTable,
 			baseItems: INITIAL_ITEMS,
@@ -77,10 +79,9 @@ const useGameStore = create<
 				set((state) => {
 					const newInventory = [...state.inventory.items];
 					const newCrafting = [...state.craftingTable];
-
 					let dragged: Item | undefined;
 
-					// Removing object
+					// remove
 					if (from.context === "inventory") {
 						dragged = newInventory[from.index];
 						if (!dragged) return state;
@@ -88,16 +89,16 @@ const useGameStore = create<
 					} else {
 						dragged = newCrafting[from.index].item;
 						if (!dragged) return state;
-						newCrafting[from.index] = { ...newCrafting[from.index], item: undefined };
+						newCrafting[from.index] = {
+							...newCrafting[from.index],
+							item: undefined,
+						};
 					}
 
-					// Place object
+					// place
 					if (to.context === "inventory") {
-						if (to.index >= newInventory.length) {
-							newInventory.push(dragged);
-						} else {
-							newInventory.splice(to.index, 0, dragged);
-						}
+						if (to.index >= newInventory.length) newInventory.push(dragged);
+						else newInventory.splice(to.index, 0, dragged);
 					} else {
 						newCrafting[to.index] = { ...newCrafting[to.index], item: dragged };
 					}
@@ -106,6 +107,57 @@ const useGameStore = create<
 						...state,
 						inventory: { ...state.inventory, items: newInventory },
 						craftingTable: newCrafting,
+					};
+				}),
+
+			// checking if an item can be crafted
+			craftedItem: () => {
+				const { craftingTable, availableForCrafting } = get();
+				const currentSchema = craftingTable.map((slot) => slot.item ?? null);
+
+				for (const recipe of availableForCrafting) {
+					const flatSchema = recipe.schema.flat();
+					let matches = true;
+
+					for (let i = 0; i < flatSchema.length; i++) {
+						const expected = flatSchema[i];
+						const actual = currentSchema[i];
+
+						if (expected === null && actual === null) continue;
+						if (expected === null && actual !== null) {
+							matches = false;
+							break;
+						}
+						if (expected !== null && actual === null) {
+							matches = false;
+							break;
+						}
+						if (expected?.type !== actual?.type) {
+							matches = false;
+							break;
+						}
+					}
+
+					if (matches) return recipe.item;
+				}
+				return null;
+			},
+
+			// take crafted item and clear the grid
+			takeCraftedItem: () =>
+				set((state) => {
+					const crafted = get().craftedItem();
+					if (!crafted) return state;
+
+					return {
+						...state,
+						inventory: {
+							items: [...state.inventory.items, { ...crafted, id: nanoid() }],
+						},
+						craftingTable: state.craftingTable.map((slot) => ({
+							...slot,
+							item: undefined,
+						})),
 					};
 				}),
 		}),

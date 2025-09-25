@@ -12,7 +12,7 @@ const GameBoard = () => {
 	return (
 		<DndProvider backend={HTML5Backend}>
 			<DiscoveredRecipeButton />
-			<div style={{ display: "flex" }}>
+			<div style={{ display: "flex", position: "relative"}}>
 				<Discovery />
 				<Crafting />
 			</div>

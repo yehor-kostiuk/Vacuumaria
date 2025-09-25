@@ -14,6 +14,7 @@ import {
 	INITIAL_AVALIABLE_CRAFT_ITEMS,
 	ADVANCED_CRAFT_ITEMS,
 } from "~/libs/constants/constants.js";
+import { FINAL_CRAFT_ITEM } from "~/libs/constants/advanced-craft-items.ts";
 
 export const initialCraftingTable: CraftingSlot[] = Array.from(
 	{ length: 9 },
@@ -42,7 +43,8 @@ const useGameStore = create<
 			baseItems: INITIAL_ITEMS,
 			unlockedItems: [] as AdvancedItem[],
 			availableForCrafting: INITIAL_AVALIABLE_CRAFT_ITEMS,
-			advancedCraftItems: ADVANCED_CRAFT_ITEMS, // добавлено
+			advancedCraftItems: ADVANCED_CRAFT_ITEMS,
+			finalCraftItem: FINAL_CRAFT_ITEM,
 
 			addToInventory: (item: Item) =>
 				set((state) => ({
@@ -114,10 +116,10 @@ const useGameStore = create<
 				}),
 
 			craftedItem: () => {
-				const { craftingTable, availableForCrafting, advancedCraftItems } = get();
+				const { craftingTable, availableForCrafting, advancedCraftItems, finalCraftItem } = get();
 				const currentSchema = craftingTable.map((slot) => slot.item ?? null);
 
-				const allRecipes = [...availableForCrafting, ...advancedCraftItems];
+				const allRecipes = [...availableForCrafting, ...advancedCraftItems, ...finalCraftItem];
 
 				for (const recipe of allRecipes) {
 					const flatSchema = recipe.schema.flat();
@@ -155,7 +157,11 @@ const useGameStore = create<
 					const crafted = get().craftedItem();
 					if (!crafted) return state;
 
-					const allRecipes = [...state.availableForCrafting, ...state.advancedCraftItems];
+					const allRecipes = [
+						...state.availableForCrafting,
+						...state.advancedCraftItems,
+						...state.finalCraftItem,
+					];
 
 					const recipe = allRecipes.find((r) => r.item.id === crafted.id);
 
@@ -165,7 +171,7 @@ const useGameStore = create<
 							: [...state.unlockedItems, recipe]
 						: state.unlockedItems;
 
-					return {
+					const newState = {
 						...state,
 						inventory: {
 							items: [...state.inventory.items, { ...crafted, id: nanoid() }],
@@ -176,6 +182,12 @@ const useGameStore = create<
 						})),
 						unlockedItems: newUnlockedItems,
 					};
+
+					if (crafted.type === "george") {
+						alert("🎉 Поздравляем! Вы создали George и выиграли игру!");
+					}
+
+					return newState;
 				}),
 		}),
 		{

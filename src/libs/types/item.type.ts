@@ -1,1 +1,16 @@
-export type ItemType = "iron" | "plastic" | "energy" | "bolt" | "wheel" | "wheels" | "screw" | "engine";
+export type ItemType =
+	| "iron"
+	| "plastic"
+	| "energy"
+	| "bolt"
+	| "wheel"
+	| "wheels"
+	| "gear"
+	| "engine"
+	| "frame"
+	| "transistor"
+	| "george"
+	| "board"
+	| "wire"
+	| "cap"
+	| "tube"

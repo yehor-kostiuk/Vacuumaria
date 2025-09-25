@@ -9,8 +9,8 @@ const Crafting = () => {
 	const takeCraftedItem = useGameStore((s) => s.takeCraftedItem);
 
 	return (
-		<div>
-			<div>Crafting</div>
+		<div className={styles["wrapper"]}>
+			<h2>Crafting</h2>
 			<div className={styles["crafting-container"]}>
 				<CraftingTable />
 				{"->"}

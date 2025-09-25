@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import styles from "./discovered-recipe-modal.module.css";
 import { DiscoveredRecipeCard } from "./discovered-recipe-card/discovered-recipe-card.jsx";
 import { useGameStore } from "~/libs/modules/store.module.js";
+import type { AdvancedItem } from "~/libs/types/types.ts";
 
 type Properties = {
 	isOpen: boolean;
@@ -9,21 +10,21 @@ type Properties = {
 };
 
 const DiscoveredRecipeModal = ({ isOpen, onClose }: Properties) => {
-	const discoveredItemsSet = useGameStore((state) => state.unlockedItems);
-	const discoveredItems = Array.from(discoveredItemsSet);
+	const unlockedItems = useGameStore((state) => state.unlockedItems);
+
+	// Явно указываем, что это массив AdvancedItem
+	const discoveredItems: AdvancedItem[] = Array.isArray(unlockedItems)
+		? unlockedItems
+		: (Array.from(unlockedItems ?? []) as AdvancedItem[]);
 
 	useEffect(() => {
 		document.body.style.overflow = isOpen ? "hidden" : "";
 
 		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key === "Escape") {
-				onClose();
-			}
+			if (e.key === "Escape") onClose();
 		};
 
-		if (isOpen) {
-			document.addEventListener("keydown", handleKeyDown);
-		}
+		if (isOpen) document.addEventListener("keydown", handleKeyDown);
 
 		return () => {
 			document.body.style.overflow = "";
@@ -32,9 +33,7 @@ const DiscoveredRecipeModal = ({ isOpen, onClose }: Properties) => {
 	}, [isOpen, onClose]);
 
 	const handleOverlayClick = (e: React.MouseEvent) => {
-		if (e.target === e.currentTarget) {
-			onClose();
-		}
+		if (e.target === e.currentTarget) onClose();
 	};
 
 	return isOpen ? (
@@ -60,7 +59,7 @@ const DiscoveredRecipeModal = ({ isOpen, onClose }: Properties) => {
 							</div>
 						) : (
 							discoveredItems.map((recipe) => (
-								<DiscoveredRecipeCard key={recipe.item.id} item={recipe} />
+								<DiscoveredRecipeCard key={recipe.item.id} recipe={recipe} />
 							))
 						)}
 					</div>

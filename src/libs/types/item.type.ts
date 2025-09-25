@@ -1,1 +1,1 @@
-export type ItemType = "iron" | "plastic" | "energy" | "bolt";
+export type ItemType = "iron" | "plastic" | "energy" | "bolt" | "wheel";

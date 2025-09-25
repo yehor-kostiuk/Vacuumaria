@@ -1,73 +1,63 @@
 import styles from "./discovered-recipe-card.module.css";
-import { type AdvancedItem } from "~/libs/types/types.ts";
+import type { AdvancedItem } from "~/libs/types/types.ts";
 
 type Props = {
-	item: AdvancedItem;
+	recipe: AdvancedItem;
 };
 
-const DiscoveredRecipeCard = ({ item }: Props) => {
+const DiscoveredRecipeCard = ({ recipe }: Props) => {
+	const { item, schema } = recipe;
+
 	return (
 		<div className={styles["recipe-card"]}>
 			<div className={styles["recipe-header"]}>
 				<div className={styles["result-icon"]}>
 					<img
-						src={item.item.icon}
-						alt={item.item.name}
+						src={item.icon}
+						alt={item.name}
 						className={styles["card-image"]}
 					/>
 				</div>
 				<div className={styles["recipe-info"]}>
-					<h3 className={styles["recipe-name"]}>{item.item.name}</h3>
-					<p className={styles["recipe-description"]}>
-						{item.item.description}
-					</p>
+					<h3 className={styles["recipe-name"]}>{item.name}</h3>
+					<p className={styles["recipe-description"]}>{item.description}</p>
 					<span className={styles["status-badge"]}>✅ Discovered</span>
 				</div>
 			</div>
 
 			<div className={styles["crafting-grid"]}>
-				<div className={styles["crafting-row"]}>
-					<div className={styles["ingredient-slot"]}>
-						<img
-							src={item.item.icon}
-							alt={item.item.name}
-							className={styles["ingredient-image"]}
-						/>
-					</div>
-					<div className={styles["ingredient-slot"]}>
-						<img
-							src={item.item.icon}
-							alt={item.item.name}
-							className={styles["ingredient-image"]}
-						/>
-					</div>
-					<div className={styles["ingredient-slot"]}>
-						<img
-							src={item.item.icon}
-							alt={item.item.name}
-							className={styles["ingredient-image"]}
-						/>
-					</div>
-				</div>
-
-				<div className={styles["crafting-row"]}>
-					<div className={styles["empty-slot"]}></div>
-					<div className={styles["empty-slot"]}></div>
-					<div className={styles["empty-slot"]}></div>
-				</div>
-
-				<div className={styles["crafting-row"]}>
-					<div className={styles["empty-slot"]}></div>
-					<div className={styles["empty-slot"]}></div>
-					<div className={styles["empty-slot"]}></div>
+				<div>
+					{schema.map((row, rowIndex) => (
+						<div key={rowIndex} className={styles["crafting-row"]}>
+							{row.map((slot, colIndex) =>
+								slot ? (
+									<div
+										key={colIndex}
+										className={styles["ingredient-slot"]}
+									>
+										<img
+											src={slot.icon}
+											alt={slot.name}
+											className={styles["ingredient-image"]}
+										/>
+									</div>
+								) : (
+									<div
+										key={colIndex}
+										className={styles["empty-slot"]}
+									></div>
+								),
+							)}
+						</div>
+					))}
 				</div>
 
 				<div className={styles["arrow"]}>→</div>
 
 				<div className={styles["result-slot"]}>
 					<img
-						src={item.item.icon}
-						alt={item.item.name}
+						src={item.icon}
+						alt={item.name}
 						className={styles["result-image"]}
 					/>
 				</div>

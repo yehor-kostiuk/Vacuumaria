@@ -57,9 +57,12 @@ const useGameStore = create<
 				})),
 
 			unlockRecipe: (recipe: AdvancedItem) =>
-				set((state) => ({
-					unlockedItems: [...state.unlockedItems, recipe],
-				})),
+				set((state) => {
+					if (!state.unlockedItems.find((r) => r.item.id === recipe.item.id)) {
+						return { unlockedItems: [...state.unlockedItems, recipe] };
+					}
+					return state;
+				}),
 
 			addToCraftingTable: (slotId, item) =>
 				set((state) => ({
@@ -81,7 +84,6 @@ const useGameStore = create<
 					const newCrafting = [...state.craftingTable];
 					let dragged: Item | undefined;
 
-					// remove
 					if (from.context === "inventory") {
 						dragged = newInventory[from.index];
 						if (!dragged) return state;
@@ -95,7 +97,6 @@ const useGameStore = create<
 						};
 					}
 
-					// place
 					if (to.context === "inventory") {
 						if (to.index >= newInventory.length) newInventory.push(dragged);
 						else newInventory.splice(to.index, 0, dragged);
@@ -110,7 +111,6 @@ const useGameStore = create<
 					};
 				}),
 
-			// checking if an item can be crafted
 			craftedItem: () => {
 				const { craftingTable, availableForCrafting } = get();
 				const currentSchema = craftingTable.map((slot) => slot.item ?? null);
@@ -143,11 +143,21 @@ const useGameStore = create<
 				return null;
 			},
 
-			// take crafted item and clear the grid
 			takeCraftedItem: () =>
 				set((state) => {
 					const crafted = get().craftedItem();
 					if (!crafted) return state;
+
+					// Найти рецепт по crafted item
+					const recipe = state.availableForCrafting.find(
+						(r) => r.item.id === crafted.id,
+					);
+
+					const newUnlockedItems = recipe
+						? state.unlockedItems.find((r) => r.item.id === recipe.item.id)
+							? state.unlockedItems
+							: [...state.unlockedItems, recipe]
+						: state.unlockedItems;
 
 					return {
 						...state,
@@ -158,6 +168,7 @@ const useGameStore = create<
 							...slot,
 							item: undefined,
 						})),
+						unlockedItems: newUnlockedItems,
 					};
 				}),
 		}),

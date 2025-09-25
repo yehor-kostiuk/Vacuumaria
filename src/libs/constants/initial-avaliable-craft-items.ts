@@ -4,6 +4,7 @@ import { INITIAL_ITEMS } from "~/libs/constants/constants.js";
 
 const iron = INITIAL_ITEMS.find((i) => i.type === "iron")!;
 const plastic = INITIAL_ITEMS.find((i) => i.type === "plastic")!;
+const energy = INITIAL_ITEMS.find((i) => i.type === "energy")!;
 
 export const INITIAL_AVALIABLE_CRAFT_ITEMS: AdvancedItem[] = [
 	{
@@ -30,7 +31,7 @@ export const INITIAL_AVALIABLE_CRAFT_ITEMS: AdvancedItem[] = [
 		},
 		schema: [
 			[null, plastic, null],
-			[plastic, null, plastic],
+			[plastic, energy, plastic],
 			[null, plastic, null],
 		],
 	}

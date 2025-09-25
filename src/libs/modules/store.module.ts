@@ -12,6 +12,7 @@ import type {
 import {
 	INITIAL_ITEMS,
 	INITIAL_AVALIABLE_CRAFT_ITEMS,
+	ADVANCED_CRAFT_ITEMS,
 } from "~/libs/constants/constants.js";
 
 export const initialCraftingTable: CraftingSlot[] = Array.from(
@@ -21,18 +22,18 @@ export const initialCraftingTable: CraftingSlot[] = Array.from(
 
 const useGameStore = create<
 	Game & {
-		addToInventory: (item: Item) => void;
-		removeFromInventory: (itemId: string) => void;
-		unlockRecipe: (recipe: AdvancedItem) => void;
-		addToCraftingTable: (slotId: string, item: Item) => void;
-		removeFromCraftingTable: (slotId: string) => void;
-		moveItem: (
-			from: { context: "inventory" | "crafting"; index: number },
-			to: { context: "inventory" | "crafting"; index: number },
-		) => void;
-		craftedItem: () => Item | null;
-		takeCraftedItem: () => void;
-	}
+	addToInventory: (item: Item) => void;
+	removeFromInventory: (itemId: string) => void;
+	unlockRecipe: (recipe: AdvancedItem) => void;
+	addToCraftingTable: (slotId: string, item: Item) => void;
+	removeFromCraftingTable: (slotId: string) => void;
+	moveItem: (
+		from: { context: "inventory" | "crafting"; index: number },
+		to: { context: "inventory" | "crafting"; index: number },
+	) => void;
+	craftedItem: () => Item | null;
+	takeCraftedItem: () => void;
+}
 >()(
 	persist(
 		(set, get) => ({
@@ -41,6 +42,7 @@ const useGameStore = create<
 			baseItems: INITIAL_ITEMS,
 			unlockedItems: [] as AdvancedItem[],
 			availableForCrafting: INITIAL_AVALIABLE_CRAFT_ITEMS,
+			advancedCraftItems: ADVANCED_CRAFT_ITEMS, // добавлено
 
 			addToInventory: (item: Item) =>
 				set((state) => ({
@@ -112,10 +114,12 @@ const useGameStore = create<
 				}),
 
 			craftedItem: () => {
-				const { craftingTable, availableForCrafting } = get();
+				const { craftingTable, availableForCrafting, advancedCraftItems } = get();
 				const currentSchema = craftingTable.map((slot) => slot.item ?? null);
 
-				for (const recipe of availableForCrafting) {
+				const allRecipes = [...availableForCrafting, ...advancedCraftItems];
+
+				for (const recipe of allRecipes) {
 					const flatSchema = recipe.schema.flat();
 					let matches = true;
 
@@ -148,10 +152,9 @@ const useGameStore = create<
 					const crafted = get().craftedItem();
 					if (!crafted) return state;
 
-					// Найти рецепт по crafted item
-					const recipe = state.availableForCrafting.find(
-						(r) => r.item.id === crafted.id,
-					);
+					const allRecipes = [...state.availableForCrafting, ...state.advancedCraftItems];
+
+					const recipe = allRecipes.find((r) => r.item.id === crafted.id);
 
 					const newUnlockedItems = recipe
 						? state.unlockedItems.find((r) => r.item.id === recipe.item.id)

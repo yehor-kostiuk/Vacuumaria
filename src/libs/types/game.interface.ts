@@ -9,4 +9,5 @@ export interface Game {
 	unlockedItems: AdvancedItem[];
 	baseItems: Item[];
 	availableForCrafting: AdvancedItem[],
+	advancedCraftItems: AdvancedItem[];
 }

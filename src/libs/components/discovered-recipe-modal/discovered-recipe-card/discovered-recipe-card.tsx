@@ -29,25 +29,24 @@ const DiscoveredRecipeCard = ({ recipe }: Props) => {
 				<div>
 					{schema.map((row, rowIndex) => (
 						<div key={rowIndex} className={styles["crafting-row"]}>
-							{row.map((slot, colIndex) =>
-								slot ? (
-									<div
-										key={colIndex}
-										className={styles["ingredient-slot"]}
-									>
+							{row.map((slot, colIndex) => {
+								if (!slot) {
+									return <div key={colIndex} className={styles["empty-slot"]}></div>;
+								}
+
+								const icon = slot.icon ?? slot.item?.icon;
+								const name = slot.name ?? slot.item?.name;
+
+								return (
+									<div key={colIndex} className={styles["ingredient-slot"]}>
 										<img
-											src={slot.icon}
-											alt={slot.name}
+											src={icon}
+											alt={name}
 											className={styles["ingredient-image"]}
 										/>
 									</div>
-								) : (
-									<div
-										key={colIndex}
-										className={styles["empty-slot"]}
-									></div>
-								),
-							)}
+								);
+							})}
 						</div>
 					))}
 				</div>

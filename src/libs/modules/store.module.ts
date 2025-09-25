@@ -136,7 +136,10 @@ const useGameStore = create<
 							matches = false;
 							break;
 						}
-						if (expected?.type !== actual?.type) {
+						const expectedType = expected?.type ?? expected?.item?.type;
+						const actualType = actual?.type;
+
+						if (expectedType !== actualType) {
 							matches = false;
 							break;
 						}

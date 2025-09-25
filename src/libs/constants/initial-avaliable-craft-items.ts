@@ -34,5 +34,19 @@ export const INITIAL_AVALIABLE_CRAFT_ITEMS: AdvancedItem[] = [
 			[plastic, energy, plastic],
 			[null, plastic, null],
 		],
+	},
+	{
+		item: {
+			id: "screw-1",
+			type: "screw",
+			name: "Screw",
+			icon: "/src/assets/img/icons/screw.png",
+			description: "screw",
+		},
+		schema: [
+			[null, iron, null],
+			[iron, null, iron],
+			[null, iron, null],
+		],
 	}
 ];
